@@ -28,7 +28,7 @@ if GEMINI_API_KEY:
     try:
         genai.configure(api_key=GEMINI_API_KEY)
         # Prefer a widely available flash model; change if your account has another
-        gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+        gemini_model = genai.GenerativeModel("gemini-3.8-flash")
     except Exception as e:
         print(f"Gemini init warning: {e}")
         gemini_model = None
