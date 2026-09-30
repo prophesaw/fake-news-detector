@@ -23,11 +23,15 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 groq_client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
 
+gemini_model = None
 if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-    gemini_model = genai.GenerativeModel("gemini-3.5-flash-lite")
-else:
-    gemini_model = None
+    try:
+        genai.configure(api_key=GEMINI_API_KEY)
+        # Prefer a widely available flash model; change if your account has another
+        gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+    except Exception as e:
+        print(f"Gemini init warning: {e}")
+        gemini_model = None
 
 # ---------- Shared analysis prompt ----------
 SYSTEM_PROMPT = """You are an expert fact-checker and misinformation analyst.
